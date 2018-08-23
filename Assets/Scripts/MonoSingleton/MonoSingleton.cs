@@ -10,12 +10,9 @@ using UnityEngine;
 /// <typeparam name="T"></typeparam>
 public class MonoSingleton<T> : MonoBehaviour where T : Component {
     private static T instance = null;
-    private static bool isQuitting = false;
     public static T Instance {
         get {
-            if(instance == null && !isQuitting) {
-                FindOrCreateInstance();
-            }
+            if(instance == null) { FindOrCreateInstance(); }
             return instance;
         }
     }
@@ -25,7 +22,6 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
     /// Looks for an existing instance, if not found creates one. If multiple are found, reports error.
     /// </summary>
     static private void FindOrCreateInstance() {
-        Application.quitting += SetIsQuittingTrue;
         T[] instanceArray = FindObjectsOfType<T>();
         if(instanceArray.Length == 0) {
             GameObject singleton = new GameObject(string.Empty);
@@ -35,15 +31,8 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
             instance = instanceArray[0];
             DontDestroyOnLoad(instance);
         } else if(instanceArray.Length > 1) {
-            Debug.LogError("<color=yellow>Multiple instances of a singleton exists.</color>");
+            Debug.LogError("<color=yellow>Multiple instances of the singleton [" + typeof(T).Name + "] exists.</color>");
             Debug.Break();
         }
-    }
-
-    /// <summary>
-    /// Toggles the isQuitting in case something attempts to access the Singleton while it's exiting.
-    /// </summary>
-    static void SetIsQuittingTrue() {
-        isQuitting = true;
     }
 }
