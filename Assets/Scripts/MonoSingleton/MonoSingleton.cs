@@ -4,9 +4,7 @@
 
 using UnityEngine;
 
-/// <summary>
-/// Extend with Class Name to automatically create a Singleton
-/// </summary>
+/// <summary>Extend with Class Name to automatically create a Singleton</summary>
 /// <typeparam name="T"></typeparam>
 public class MonoSingleton<T> : MonoBehaviour where T : Component {
     private static T instance = null;
@@ -18,9 +16,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
     }
 
 
-    /// <summary>
-    /// Looks for an existing instance, if not found creates one. If multiple are found, reports error.
-    /// </summary>
+    /// <summary>Looks for an existing instance, if not found creates one. If multiple are found, reports error.</summary>
     static private void FindOrCreateInstance() {
         T[] instanceArray = FindObjectsOfType<T>();
         if(instanceArray.Length == 0) {
