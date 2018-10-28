@@ -7,10 +7,11 @@ using UnityEngine;
 /// <summary>Extend with Class Name to automatically create a Singleton</summary>
 /// <typeparam name="T"></typeparam>
 public class MonoSingleton<T> : MonoBehaviour where T : Component {
+    private static bool isQuitting = false;
     private static T instance = null;
     public static T Instance {
         get {
-            if(instance == null) { FindOrCreateInstance(); }
+            if(instance == null && !isQuitting) { FindOrCreateInstance(); }
             return instance;
         }
     }
@@ -20,7 +21,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
     static private void FindOrCreateInstance() {
         T[] instanceArray = FindObjectsOfType<T>();
         if(instanceArray.Length == 0) {
-            GameObject singleton = new GameObject(string.Empty);
+            GameObject singleton = new GameObject(typeof(T).Name);
             instance = singleton.AddComponent<T>();
             DontDestroyOnLoad(singleton);
         } else if(instanceArray.Length == 1) {
@@ -31,4 +32,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
             Debug.Break();
         }
     }
+
+    /// <summary>So that Unity doesn't have to destroy objects that might be called while quitting;</summary>
+    private void OnApplicationQuit() { isQuitting = true; }
 }
