@@ -1,7 +1,7 @@
 # MonoSingleton
 Templated Singleton that can be extended by a MonoBehaviour for ease of creation.
 
-# Example
+## Example
 `class GameManager : MonoSingleton<GameManager> {
     public int SomeInt { get; set; }
 }`
