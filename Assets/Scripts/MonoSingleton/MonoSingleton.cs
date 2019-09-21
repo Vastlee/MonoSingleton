@@ -11,7 +11,10 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
     private static T instance = null;
     public static T Instance {
         get {
-            if (instance == null && !isQuitting) { FindOrCreateInstance(); }
+            if (instance == null && !isQuitting) {
+                FindOrCreateInstance();
+                Application.quitting += () => isQuitting = true;
+            }
             return instance;
         }
     }
@@ -31,7 +34,4 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
             Debug.Break();
         }
     }
-
-    /// <summary>So that Unity doesn't have to destroy objects that might be called while quitting;</summary>
-    private static void OnApplicationQuit() { isQuitting = true; }
 }
