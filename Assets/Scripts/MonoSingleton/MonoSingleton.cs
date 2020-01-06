@@ -1,5 +1,5 @@
 /*  Description: Allows attachement to a MonoBehaviour for easy access as a Singleton
- *  Brogrammer: Vastlee
+ *  Brogrammer: Vast
  */
 
 using UnityEngine;
