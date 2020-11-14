@@ -23,15 +23,13 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component {
     private static void FindOrCreateInstance() {
         T[] instanceArray = FindObjectsOfType<T>();
         if (instanceArray.Length == 0) {
-            GameObject singleton = new GameObject(typeof(T).Name);
-            instance = singleton.AddComponent<T>();
-            DontDestroyOnLoad(singleton);
+            instance = new GameObject(typeof(T).Name).AddComponent<T>();
         } else if (instanceArray.Length == 1) {
             instance = instanceArray[0];
-            DontDestroyOnLoad(instance);
         } else if (instanceArray.Length > 1) {
-            Debug.LogError("<color=yellow>Multiple instances of the singleton [" + typeof(T).Name + "] exists.</color>");
+            Debug.LogError($"<color=yellow>Multiple instances of the singleton [{typeof(T).Name}] exists.</color>");
             Debug.Break();
         }
+        DontDestroyOnLoad(instance);
     }
 }
